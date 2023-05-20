@@ -1,11 +1,24 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import Notiflix from 'notiflix';
+import PropTypes from 'prop-types';
+import css from './ContactForm.module.css';
 
 class ContactForm extends Component {
   state = {
     name: '',
     number: '',
+  };
+
+  static propTypes = {
+    prevContacts: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        number: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+    onSubmit: PropTypes.func.isRequired,
   };
 
   handleChange = e => {
@@ -47,7 +60,7 @@ class ContactForm extends Component {
     const numberInputId = nanoid();
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className={css.form} onSubmit={this.handleSubmit}>
         <label htmlFor={nameInputId}>Name</label>
         <input
           id={nameInputId}
@@ -70,7 +83,7 @@ class ContactForm extends Component {
           onChange={this.handleChange}
           required
         />
-        <button type="submit">Add contact</button>
+        <button className={css.formButton}type="submit">Add contact</button>
       </form>
     );
   }
